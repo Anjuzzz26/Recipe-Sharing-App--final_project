@@ -1,1 +1,67 @@
-<p>register works!</p>
+<app-header></app-header>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 header">         
+        </div>
+        <div class="col-sm-6 formsection">
+              <h2>Sign Up</h2>
+              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                  <input type="text" 
+                  id="name" 
+                  name="name" 
+                  class="form-control"
+                  placeholder="Name" 
+                  formControlName="name">
+                  <span class="help-block"
+                      *ngIf="!registerForm.get('name')?.valid && registerForm.get('name')?.touched">
+                      * Please enter valid name</span>
+                </div>
+                <div class="form-group">
+                  <input type="text" 
+                  id="email" 
+                  name="email" 
+                  class="form-control"
+                  placeholder="Email"                                         
+                  formControlName="email">
+                  <span class="help-block"
+                      *ngIf="!registerForm.get('email')?.valid && registerForm.get('email')?.touched">
+                      * Please enter valid email address</span>
+                </div>
+                <div class="form-group">
+                  <input type="text" 
+                  id="phone" 
+                  name="phone" 
+                  class="form-control"
+                  placeholder="Phone Number"
+                  formControlName="phone">
+                  <span class="help-block"
+                      *ngIf="!registerForm.get('phone')?.valid && registerForm.get('phone')?.touched">
+                      * Please enter valid phone number</span>
+                </div>
+                <div class="form-group">
+                  <input type="password" 
+                  id="password"  
+                  name="password" 
+                  class="form-control"
+                  placeholder="Password"
+                  formControlName="password">
+                  <span class="help-block"
+                      *ngIf="!registerForm.get('password')?.valid && registerForm.get('password')?.touched">
+                      * Please enter valid password</span>
+                </div>
+                <div class="form-group">
+                  <input type="password" 
+                  id="cpassword"  
+                  name="cpassword" 
+                  class="form-control"
+                  placeholder="Confirm Password"
+                  formControlName="confirmPassword">
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button><br/><br/>
+                <p>Already An User? <a routerLink="/login">Sign In</a></p>
+              </form>
+              
+        </div>
+    </div>
+</div>

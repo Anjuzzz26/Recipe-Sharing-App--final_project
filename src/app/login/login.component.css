@@ -1,0 +1,31 @@
+.container{
+    padding-right: 0; 
+    padding-left: 60px;
+    margin-right: 0;
+    margin-left: 12px;
+    width: 98%;
+    height: fit-content;
+    background-color: rgb(130, 190, 190);
+}
+.col-sm-6{
+    padding: 20px;
+}
+
+.header{
+    background-image: url("../../assets/images/recipes-1.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 555px;
+}
+h2{
+    margin-top: 100px;
+}
+.btn{
+    width: 80%;
+}
+.form-control{
+    width: 80%;
+}
+span{
+    color: red;
+}

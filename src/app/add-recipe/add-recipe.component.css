@@ -1,0 +1,38 @@
+.container{
+    padding-right: 0; 
+    padding-left: 60px;
+    /* padding-top: 30px; */
+    margin-right: 0;
+    margin-left: 12px;
+    width: 98%;
+    height: 555px;
+    background-image: url("../../assets/images/recipes-2.jpg");
+    /* background-color: rgb(130, 190, 190); */
+    /* text-align: center; */
+}
+.row{
+    padding-left: 280px;
+}
+.col-sm-8{
+    background-color: rgba(0,0,0,.8);
+    color: #fff;
+    margin-top: 30px;
+    height: fit-content;
+    padding-bottom: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+}
+input[type=file]::file-selector-button {
+    border: none;
+    background: #91a4bb;
+    padding: 8px 20px;
+    color: #0e0c0c;
+    cursor: pointer;
+}
+input[type=file]{
+    padding-left: 0;
+    padding-top: 0;
+}
+h2{
+    margin-top: 30px;
+}

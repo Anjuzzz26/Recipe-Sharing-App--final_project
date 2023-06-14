@@ -1,1 +1,42 @@
-<p>add-recipe works!</p>
+<app-header></app-header>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+                <h2>Share Recipe</h2><br/>
+                <form>
+                    <div class="form-group">
+                        <input type="text" 
+                        class="form-control"
+                        id="recipename"
+                        name="recipename"
+                        placeholder="Recipie Name"
+                        required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" 
+                        class="form-control"
+                        id="ingredients"
+                        name="ingredients"
+                        placeholder="Ingredients"
+                        required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="description" 
+                        id="description" cols="30" rows="8" 
+                        class="form-control"
+                        placeholder="Description"
+                        required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" 
+                        class="form-control"
+                        id="image"
+                        name="image"
+                        required>
+                    </div>
+                    <button class="btn btn-primary"
+                    type="submit">Share Recipe</button>
+            </form>
+        </div>
+    </div>
+</div>
