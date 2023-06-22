@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AppServiceService } from '../app-service.service';
+import { AppServiceService } from '../services/app-service.service';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Component({
@@ -38,8 +38,7 @@ export class RegisterComponent implements OnInit{
     };
   }
 
-  constructor(private appService: AppServiceService, private route: Router, private fb: FormBuilder,
-    private snackBar: MatSnackBar) {}
+  constructor(private appService: AppServiceService, private route: Router, private fb: FormBuilder) {}
 
   clsAlphaNoOnly(event: any): void {
     const pattern = /[a-zA-Z\s]/;
@@ -78,18 +77,14 @@ export class RegisterComponent implements OnInit{
     if(window.confirm("Are you sure you want to submit the form?")){
       this.appService.register(this.registerForm.getRawValue()).subscribe({
         next: (res:any) => {
-          if(res.message=="Registered Successfully"){
             console.log(res);
             console.log(this.registerForm);
             this.route.navigate(['/login']);
             window.alert("Registration Successful")
-          }
-          else{
-            window.alert(res.message);
-          }
         },
         error:(err:any)=>{
             console.log(err)
+            window.alert(err.error.message)
             console.log("Failed");
         }
       })

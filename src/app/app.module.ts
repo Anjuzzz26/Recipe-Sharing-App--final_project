@@ -13,17 +13,19 @@ import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { RecipieListComponent } from './recipie-list/recipie-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS,HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AuthguardService } from './services/authguard.service';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 
 const appRoutes : Routes = [
     { path : '', component : LoginComponent },
     { path : 'login', component : LoginComponent },
     { path : 'register', component : RegisterComponent },
-    { path : 'addrecipe', component : AddRecipeComponent },
-    { path : 'home', component : HomeComponent}
+    { path : 'addrecipe', component : AddRecipeComponent, canActivate : [AuthguardService] },
+    { path : 'home', component : HomeComponent, canActivate : [AuthguardService]}
 ];
 
 
@@ -48,7 +50,10 @@ const appRoutes : Routes = [
     MatSnackBarModule,
     RouterModule.forRoot(appRoutes),
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor,
+    multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { AppServiceService } from '../app-service.service';
-// import { AuthService } from '../auth.service';
+import { AppServiceService } from '../services/app-service.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   signUpForm !: FormGroup;
   errmsg = '';
 
-  constructor(private appService: AppServiceService, 
+  constructor(private appService: AppServiceService, private authService: AuthService, 
     private fb:FormBuilder, private route:Router){}
 
 
@@ -33,20 +33,14 @@ export class LoginComponent implements OnInit {
     }
     this.appService.login(this.signUpForm.getRawValue()).subscribe ({
       next:(response : any) => {
-        if(response.message=="Login Successfull"){
           console.log(response.message);
-          localStorage.setItem('currentUser',response.results.rows[0].name);
-          this.route.navigate(['/home'])
-        }
-        else{
-          this.errmsg = response.message;
-          console.log(this.errmsg);
-          
-          
-        }
+          this.authService.login(response.name, response.token, response.id);
+          this.route.navigate(['/home']);
       },
       error:(err:any)=>{
-        console.log(err,'gfdfgd');
+        console.log(err);
+        this.errmsg = err.error.message;
+        console.log(this.errmsg);
       }
     })
   }

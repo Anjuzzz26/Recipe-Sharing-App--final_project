@@ -18,13 +18,14 @@
     <div class="row">
         <div class="col-sm-8">
                 <h2>Share Recipe</h2><br/>
-                <form>
+                <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
                     <div class="form-group">
                         <input type="text" 
                         class="form-control"
                         id="recipename"
                         name="recipename"
                         placeholder="Recipie Name"
+                        formControlName="recipeName"
                         required>
                     </div>
                     <div class="form-group">
@@ -33,6 +34,7 @@
                         id="ingredients"
                         name="ingredients"
                         placeholder="Ingredients"
+                        formControlName="ingredients"
                         required>
                     </div>
                     <div class="form-group">
@@ -40,6 +42,7 @@
                         id="description" cols="30" rows="8" 
                         class="form-control"
                         placeholder="Description"
+                        formControlName="description"
                         required></textarea>
                     </div>
                     <div class="form-group">
@@ -47,6 +50,7 @@
                         class="form-control"
                         id="image"
                         name="image"
+                        formControlName="image"
                         required>
                     </div>
                     <button class="btn btn-primary"

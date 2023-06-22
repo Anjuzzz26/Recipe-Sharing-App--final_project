@@ -19,8 +19,12 @@ export class AppServiceService {
     return this.http.post(this.BaseUrl + '/users/login', formData);
   }
 
+  createRecipe(user: any, id: any): Observable<any> {
+    return this.http.post(this.BaseUrl + '/users/addrecipe', { user, id });
+  }
+
   logout() {
-    localStorage.removeItem('currentUser');
+    localStorage.clear();
   }
 
 }

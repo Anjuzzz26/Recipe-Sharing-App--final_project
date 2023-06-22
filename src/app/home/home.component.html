@@ -9,7 +9,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li><a>Hello {{ name }}</a></li>
-                <li><a routerLink="/login">LogOut</a></li>
+                <li><a routerLink="/login">
+                    <button (click)="logout()">LogOut</button></a></li>
             </ul>
         </div>
     </div>
