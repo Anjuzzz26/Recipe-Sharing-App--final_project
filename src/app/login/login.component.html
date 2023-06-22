@@ -6,6 +6,8 @@
         <div class="col-sm-6 formsection">
             <h2>Sign In</h2>
             <br/>
+            <p style="color:red;">{{ errmsg }}</p>
+            <br/>
             <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
               <div class="form-group">
                 <input type="text" 

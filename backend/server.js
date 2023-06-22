@@ -25,7 +25,7 @@ app.post('/users/register', async (req, res) => {
     try {
         pool.query("SELECT * FROM users WHERE email_username = $1", [email], (error, results) => {
             if(results.rows.length){
-                res.json({ message: 'Email Already Exists' });;
+                res.json({ message: 'Email Already Exists' });
             }else{
                 pool.query("INSERT INTO users (name, email_username, phone, password) VALUES ($1, $2, $3, $4)", 
                 [name, email, phone, password], (error, results) => {
@@ -35,16 +35,27 @@ app.post('/users/register', async (req, res) => {
             }
         })
     } catch (error) {
-        res.send("An error Occured", error);
+        res.json({message : 'An error Occured', error});
     }
 });
 
-app.post('/api/login', async (req, res) => {
-    
+app.post('/users/login', async (req, res) => {
+    const { email, password } = req.body;
     try {
-      
+      pool.query("SELECT * from users WHERE email_username = $1 and password = $2", [email, password],
+      (error, results) => {
+        if(!results.rows.length){
+            res.json({ message: 'Invalid Username or Password' });
+        }else{
+            pool.query("SELECT name FROM users WHERE email_username = $1 and password = $2", [email, password],
+            (error, results) => {
+                if(error) throw error;
+                res.json({ message: 'Login Successfull', results });
+            })
+        }
+      })
     } catch (error) {
-      
+        console.log(error);
     }
 });
 

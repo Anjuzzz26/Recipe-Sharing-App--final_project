@@ -15,4 +15,12 @@ export class AppServiceService {
     return this.http.post(this.BaseUrl + '/users/register', formData)
   };
 
+  login(formData: any) : Observable<any> {
+    return this.http.post(this.BaseUrl + '/users/login', formData);
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+  }
+
 }
