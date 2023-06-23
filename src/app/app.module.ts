@@ -18,6 +18,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthguardService } from './services/authguard.service';
 import { AuthInterceptor } from './services/auth.interceptor';
+import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 
 
 const appRoutes : Routes = [
@@ -25,7 +26,8 @@ const appRoutes : Routes = [
     { path : 'login', component : LoginComponent },
     { path : 'register', component : RegisterComponent },
     { path : 'addrecipe', component : AddRecipeComponent, canActivate : [AuthguardService] },
-    { path : 'home', component : HomeComponent, canActivate : [AuthguardService]}
+    { path : 'home', component : HomeComponent, canActivate : [AuthguardService]},
+    { path : 'recipedetail/:id', component : RecipeDetailComponent, canActivate : [AuthguardService]}
 ];
 
 
@@ -40,7 +42,8 @@ const appRoutes : Routes = [
     RatingComponent,
     SearchComponent,
     HomeComponent,
-    RecipieListComponent
+    RecipieListComponent,
+    RecipeDetailComponent
   ],
   imports: [
     BrowserModule,

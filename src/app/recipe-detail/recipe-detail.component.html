@@ -1,0 +1,43 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a routerLink="/home" class="navbar-brand">MagicOven</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a routerLink="/addrecipe">Add Recipe</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a>Hello {{ name }}</a></li>
+                <li><a routerLink="/login">
+                    <button (click)="logout()" class="logoutbtn">LogOut</button></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8" 
+          *ngFor = "let recipe of recipe">
+            <h1 style="text-align: center;">{{ recipe.recipe_name }}</h1>
+            <small>Posted on {{ recipe.created_at | date }}</small><br/><br/>
+            <b>INGREDIENTS :</b><br/><br/>
+            <p>{{ recipe.ingredients }}</p><br/><br/>
+            <b>DESCRIPTION</b><br/><br/>
+            <p>{{ recipe.description }}</p><br/><br/>  
+            <br/>
+            <h3><b>COMMENTS</b></h3>
+            <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <textarea name="comments" 
+                    id="description" cols="30" rows="8" 
+                    class="form-control"
+                    formControlName="comments"
+                    required></textarea>
+                </div>
+                <button class="btn btn-primary"
+                type="submit">Add Comments</button>
+            </form>
+        </div>
+    </div>
+</div>
