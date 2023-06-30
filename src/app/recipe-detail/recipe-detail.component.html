@@ -38,6 +38,14 @@
                 <button class="btn btn-primary"
                 type="submit">Add Comments</button>
             </form>
+            <br/>
+            
+            <div class="col-sm-9" 
+            *ngFor = "let comment of comments">
+                <h5 style="color: rgb(219, 219, 245);">{{ comment.name }}<br/><small>{{ recipe.created_at | date }}</small></h5>
+                <p>{{ comment.comment }}</p>
+                <br/>
+        </div>
         </div>
     </div>
 </div>

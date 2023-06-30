@@ -34,12 +34,12 @@ export class AddRecipeComponent implements OnInit {
   }
    
   onSubmit() {
-    // this.recipeForm.markAllAsTouched();
-    // console.log(this.recipeForm);
-    // if(this.recipeForm.invalid){
-    //   window.alert("Please fill put all required fields");
-    //   return;
-    // }
+    this.recipeForm.markAllAsTouched();
+    console.log(this.recipeForm.value);
+    if (this.recipeForm.invalid) {
+      window.alert("Please fill out all required fields");
+      return;
+    }
     if(window.confirm("Are you sure you want to submit the form?")) {
       console.log(localStorage.getItem('user_id'));
       const id = localStorage.getItem('user_id');

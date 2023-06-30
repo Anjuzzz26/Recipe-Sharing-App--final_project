@@ -80,7 +80,7 @@ export class RegisterComponent implements OnInit{
             console.log(res);
             console.log(this.registerForm);
             this.route.navigate(['/login']);
-            window.alert("Registration Successful")
+            window.alert("Registered Successfully")
         },
         error:(err:any)=>{
             console.log(err)

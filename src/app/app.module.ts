@@ -6,7 +6,6 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
-import { CommentComponent } from './comment/comment.component';
 import { RatingComponent } from './rating/rating.component';
 import { SearchComponent } from './search/search.component';
 import { HomeComponent } from './home/home.component';
@@ -19,7 +18,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthguardService } from './services/authguard.service';
 import { AuthInterceptor } from './services/auth.interceptor';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
-
+import { BookmarkComponent } from './bookmark/bookmark.component';
+import { MyrecipeComponent } from './myrecipe/myrecipe.component';
 
 const appRoutes : Routes = [
     { path : '', component : LoginComponent },
@@ -27,7 +27,9 @@ const appRoutes : Routes = [
     { path : 'register', component : RegisterComponent },
     { path : 'addrecipe', component : AddRecipeComponent, canActivate : [AuthguardService] },
     { path : 'home', component : HomeComponent, canActivate : [AuthguardService]},
-    { path : 'recipedetail/:id', component : RecipeDetailComponent, canActivate : [AuthguardService]}
+    { path : 'myrecipe', component : MyrecipeComponent, canActivate : [AuthguardService]},
+    { path : 'bookmark', component : BookmarkComponent, canActivate : [AuthguardService]},
+    { path : 'recipedetail/:id', component : RecipeDetailComponent, canActivate : [AuthguardService]},
 ];
 
 
@@ -38,12 +40,13 @@ const appRoutes : Routes = [
     LoginComponent,
     RegisterComponent,
     AddRecipeComponent,
-    CommentComponent,
     RatingComponent,
     SearchComponent,
     HomeComponent,
     RecipieListComponent,
-    RecipeDetailComponent
+    RecipeDetailComponent,
+    BookmarkComponent,
+    MyrecipeComponent
   ],
   imports: [
     BrowserModule,
@@ -59,4 +62,4 @@ const appRoutes : Routes = [
   }],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

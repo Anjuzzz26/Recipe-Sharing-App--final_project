@@ -13,18 +13,32 @@ export class RecipeDetailComponent implements OnInit{
   name =  localStorage.getItem('currentUser');
   recipe: any;
   commentForm !: FormGroup;
+  comments !: any[];
+  recipeId !: any;
 
   constructor(private authService : AuthService,
     private appService : AppServiceService,
     private route: ActivatedRoute, private fb : FormBuilder) {}
 
   ngOnInit(){
-    const recipeId = this.route.snapshot.paramMap.get('id');
-    this.getRecipeDetails(recipeId);
+    this.recipeId = this.route.snapshot.paramMap.get('id');
+    this.getRecipeDetails(this.recipeId);
     this.commentForm = this.fb.group({
       "comments" : ['']
     })
+    this.loadComments();
+  }
 
+  loadComments(){
+    this.appService.getComment(this.recipeId).subscribe(
+      (response)=>{
+        console.log(response);
+        this.comments = response.result;
+    },
+    (error) => {
+      console.error('Error fetching recipes:', error);
+    }
+    );
   }
 
   getRecipeDetails(recipeId: any){
@@ -42,11 +56,12 @@ export class RecipeDetailComponent implements OnInit{
 
   onSubmit(){
     const id = localStorage.getItem('user_id');
-    this.appService.addComment(this.commentForm.getRawValue(), id).subscribe({
+    this.appService.addComment(this.commentForm.getRawValue(), id, this.recipeId).subscribe({
       next: (res: any) => {
         console.log(res);
         console.log(this.commentForm);
-        window.alert("Comment Added")
+        window.alert("Comment Added");
+        this.loadComments();
       },
       error : (err: any) => {
         console.log(err.error.message);

@@ -73,7 +73,6 @@ app.post('/users/login', async (req, res) => {
             (error, results) => {
                 if(error) throw error;
                 const user = results.rows[0];
-                console.log(user);
                 let resp = {
                     id : user.id,
                     name : user.name
@@ -97,8 +96,6 @@ app.post('/users/login', async (req, res) => {
 app.post('/users/addrecipe', verifyToken, async (req, res) => {
     const {  recipeName, ingredients, description } = req.body.user;
     const { id } = req.body;
-    console.log(req.body);
-    console.log(req.body.file);
     try {
             pool.query("INSERT INTO recipe(recipe_name, ingredients, description, author_id) VALUES ($1, $2, $3, $4)",
             [recipeName, ingredients, description, id ], (error, results) => {
@@ -111,12 +108,19 @@ app.post('/users/addrecipe', verifyToken, async (req, res) => {
     }
 });
 
-app.get('/recipes', verifyToken, async (req, res) => {
+app.get('/recipes/:id', verifyToken, async (req, res) => {
+    const userId = req.params.id;
     try {
-      pool.query('SELECT * FROM recipe', (error, results) => {
+      pool.query('SELECT u.name, r.id, r.recipe_name, r.ingredients, r.description, r.created_at FROM users AS u JOIN recipe AS r ON u.id = r.author_id ; ', (error, results) => {
         if(error) throw error;
         const result = results.rows;
-        res.status(200).json({ message : 'Retrieved Successfully', result });
+        pool.query('SELECT recipe_id FROM bookmark WHERE user_id = $1', [userId],
+        (error, results) => {
+            if(error) throw error;
+            const recipeIDs = results.rows;
+            res.status(200).json({ message : 'Retrieved Successfully', result,recipeIDs });
+        })
+        
       });
     } catch (error) {
         res.json({message : 'An error Occured', error});
@@ -144,15 +148,18 @@ app.get('/recipes/recipedetail/:id', verifyToken, async (req, res) => {
 });
 
 app.get('/recipes/search/:term', verifyToken, async (req, res) => {
-    const searchTerm = req.query.term;
+    const searchTerm = req.params.term;
     try {
-        pool.query("SELECT * FROM recipe WHERE recipe_name = $1", [searchTerm], (error, results) => {
+        pool.query("SELECT u.name, r.id, r.recipe_name, r.ingredients, r.description, r.created_at FROM users AS u JOIN recipe AS r ON u.id = r.author_id", (error, results) => {
             if (error) {
                 console.error('Error retrieving recipes:', error);
-                res.status(500).json({ message: 'Internal server error' });
+                // res.status(500).json({ message: 'Internal server error' });
               } else {
                 const result = results.rows;
-                res.status(200).json({ message : 'Retrieved', result });
+                const filteredResult = result.filter(recipe =>
+                    recipe.recipe_name.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                res.status(200).json({ message : 'Retrieved', filteredResult });
               }
         })
     } catch (error) {
@@ -163,9 +170,10 @@ app.get('/recipes/search/:term', verifyToken, async (req, res) => {
 app.post('/recipes/addComment', verifyToken, async (req, res) => {
     const comment = req.body.comment.comments;
     const id  = req.body.id;
+    const recipeId = req.body.recipe_id;
     try {
-        pool.query("INSERT INTO comments (comment, user_id) VALUES ($1, $2)",
-            [comment, id], (error, results) => {
+        pool.query("INSERT INTO comments (comment, user_id, recipe_id) VALUES ($1, $2, $3)",
+            [comment, id, recipeId], (error, results) => {
                 if(error) throw error;
                 res.status(200).json({ message: 'Comment Added Successfully' });
             })
@@ -174,5 +182,108 @@ app.post('/recipes/addComment', verifyToken, async (req, res) => {
     }
 });
 
+app.get('/recipes/comments/:id', verifyToken, async (req, res) => {
+    const recipeId = req.params.id;
+    try{
+        pool.query('SELECT u.name, c.comment, c.created_at FROM users AS u JOIN comments AS c ON u.id = c.user_id where c.recipe_id = $1; ', 
+        [recipeId], (error, results) => {
+            if (error) {
+                console.error('Error retrieving comments', error);
+                res.status(500).json({ message: 'Internal server error' });
+                console.log(failed);
+              } else {
+                const result = results.rows;
+                res.status(200).json({ message : 'Retrieved', result });
+            }
+
+        })
+    }
+    catch (error){
+        res.json({message : 'An error Occured', error});
+    }
+});
+
+app.get('/users/myrecipes/:id', verifyToken, async (req, res) => {
+    const userId = req.params.id;
+    try{
+        pool.query('SELECT r.id, r.recipe_name, r.ingredients, r.description, r.created_at FROM users AS u JOIN recipe AS r ON u.id = r.author_id WHERE r.author_id = $1', 
+        [userId], (error, results) => {
+            if (error) {
+                console.error('Error retrieving comments', error);
+                res.status(500).json({ message: 'Internal server error' });
+                console.log(failed);
+              } else {
+                const result = results.rows;
+                res.status(200).json({ message : 'Retrieved', result });
+            }
+
+        })
+    }
+    catch (error){
+        res.json({message : 'An error Occured', error});
+    }
+});
+
+app.post('/recipes/bookmark', verifyToken, async (req,res) => {
+    const userId = req.body.user_id;
+    const recipeId = req.body.recipe_id;
+    console.log(req.body);
+    try{
+        pool.query("INSERT INTO bookmark (user_id, recipe_id) VALUES ($1, $2)", [userId, recipeId],
+        (error, results) => {
+            if(error) throw error;
+            res.status(200).json({ message: 'Bookmarked Successfully' });
+        });
+    } catch (error) {
+        res.json({message : 'An error Occured', error});
+    }
+});
+
+app.delete('/recipes/unmark', verifyToken, async (req, res) => {
+    const userId = req.query.user_id;
+    const recipeId = req.query.recipe_id;
+    try{
+        pool.query("DELETE FROM bookmark WHERE user_id = $1 AND recipe_id = $2", [userId, recipeId],
+        (error, results) => {
+            if(error) throw error;
+            res.status(200).json({ message: 'Bookmark Deleted Successfully' });
+        })
+    } catch (error){
+        res.json({message : 'An error Occured', error});
+    }
+});
+
+app.delete('/myrecipes/delete', verifyToken, async (req, res) => {
+    const recipeId = req.query.recipe_id;
+    try{
+        pool.query("DELETE FROM recipe WHERE id = $1", [recipeId],
+        (error, results) => {
+            if(error) throw error;
+            res.status(200).json({ message: 'Deleted Successfully' });
+        })
+    } catch (error){
+        res.json({message : 'An error Occured', error});
+    }
+});
+
+app.get('/users/bookmark/:id', verifyToken, async (req, res) => {
+    const userId = req.params.id;
+    try{
+        pool.query('SELECT r.id, r.recipe_name, r.ingredients, r.description, r.created_at FROM recipe AS r JOIN bookmark AS b ON r.id = b.recipe_id WHERE b.user_id = $1', [userId], (error, results) => {
+            if (error) {
+                console.error('Error retrieving bookmarked recipe:', error);
+                res.status(500).json({ message: 'Internal server error' });
+                console.log(failed);
+              } else {
+                const result = results.rows;
+                res.status(200).json({ message : 'Retrieved', result });
+            }
+
+        })
+    }
+    catch (error){
+        res.json({message : 'An error Occured', error});
+    }
+});
 
 app.listen(port, () => console.log(`App listening on port ${port}`));
