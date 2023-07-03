@@ -7,10 +7,8 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 import { RatingComponent } from './rating/rating.component';
-import { SearchComponent } from './search/search.component';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
-import { RecipieListComponent } from './recipie-list/recipie-list.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS,HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,6 +18,7 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { MyrecipeComponent } from './myrecipe/myrecipe.component';
+import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
 
 const appRoutes : Routes = [
     { path : '', component : LoginComponent },
@@ -41,12 +40,11 @@ const appRoutes : Routes = [
     RegisterComponent,
     AddRecipeComponent,
     RatingComponent,
-    SearchComponent,
     HomeComponent,
-    RecipieListComponent,
     RecipeDetailComponent,
     BookmarkComponent,
-    MyrecipeComponent
+    MyrecipeComponent,
+    EditRecipeComponent
   ],
   imports: [
     BrowserModule,

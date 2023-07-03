@@ -25,13 +25,17 @@ export class BookmarkComponent implements OnInit{
       this.appService.getBookmark(userId).subscribe(
         (response) => {
           if(response.result.length == 0){
+            this.recipes = [];
             this.res="No Bookmarks Found";
           }
-          console.log(response);
-          this.recipes = response.result;
-          for(let i=0;i<this.recipes.length;i++){
-            this.recipes[i].bookmarked = true;
+          else{
+            console.log(response);
+            this.recipes = response.result;
+            for(let i=0;i<this.recipes.length;i++){
+              this.recipes[i].bookmarked = true;
+            }
           }
+          
         },
         (error) => {
           console.error('Error fetching recipes:', error);

@@ -40,7 +40,7 @@ export class AddRecipeComponent implements OnInit {
       window.alert("Please fill out all required fields");
       return;
     }
-    if(window.confirm("Are you sure you want to submit the form?")) {
+    if(window.confirm("Are you sure you want to submit your recipe?")) {
       console.log(localStorage.getItem('user_id'));
       const id = localStorage.getItem('user_id');
       this.appService.createRecipe(this.recipeForm.getRawValue(), id).subscribe({
@@ -49,7 +49,7 @@ export class AddRecipeComponent implements OnInit {
             console.log(this.recipeForm);
             this.route.navigate(['/home']);
             console.log(this.file);
-            window.alert("Recipe Added Succesfully");
+            window.alert("Your Recipe Added");
         },
         error: (err: any) => {
           console.log(err);

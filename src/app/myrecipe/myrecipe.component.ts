@@ -35,16 +35,18 @@ export class MyrecipeComponent implements OnInit {
     }
 
     delete(recipeId:any){
-      this.appService.deleteRecipes(recipeId).subscribe({
-        next: (res: any) => {
-          console.log(res);
-          window.alert('Recipe Deleted');
-          this.loadRecipes();
-        },
-        error: (err: any) => {
-          console.log(err.error.message);
-        }
-      })
+      if(window.confirm("Are you sure you want to delete?")) {
+        this.appService.deleteRecipes(recipeId).subscribe({
+          next: (res: any) => {
+            console.log(res);
+            window.alert('Recipe Deleted');
+            this.loadRecipes();
+          },
+          error: (err: any) => {
+            console.log(err.error.message);
+          }
+        })
+      }
     }
 
     logout() {

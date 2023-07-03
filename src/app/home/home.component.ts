@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AppServiceService } from '../services/app-service.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit{
   recipeIds !: any[];
   searchForm !: FormGroup;
   res = "";
+  searchTerm: string = '';
 
   constructor(private authService : AuthService, private appService : AppServiceService, 
     private formBuilder: FormBuilder) {}
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit{
   }
 
   loadRecipes(){
+    this.res = '';
     const userId = localStorage.getItem('user_id');
     this.appService.getAllRecipes(userId).subscribe(
       (response) => {
@@ -54,16 +56,18 @@ export class HomeComponent implements OnInit{
   }
 
   searchRecipes(){
-    const searchTerm = this.searchForm.value.searchTerm;
-    if (searchTerm) {
-      this.appService.searchRecipes(searchTerm).subscribe(
+    this.searchTerm = this.searchForm.value.searchTerm;
+    if (this.searchTerm) {
+      this.appService.searchRecipes(this.searchTerm).subscribe(
         (response) => {
           if(response.filteredResult.length == 0){
+            this.recipes = response.filteredResult;
             this.res="No Results Found";
           }
-          this.recipes = response.filteredResult;
-          console.log(response.filteredResult);
-          
+          else{
+            this.recipes = response.filteredResult;
+            console.log(response.filteredResult);
+          }
         },
         (error) => {
           console.error('Error searching recipes:', error);
@@ -72,6 +76,18 @@ export class HomeComponent implements OnInit{
     } else {
       this.loadRecipes();
     }
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === 'Backspace') {
+      this.resetSearch();
+    }
+  }
+
+  resetSearch() {
+    this.searchTerm = '';
+    this.loadRecipes();
   }
 
   bookMark(recipeId:any){

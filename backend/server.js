@@ -28,7 +28,7 @@ app.post('/users/register', async (req, res) => {
     try {
         pool.query("SELECT * FROM users WHERE email_username = $1", [email], (error, results) => {
             if(results.rows.length){
-                res.status(400).json({ message: 'Email Already Exists' });
+                res.status(400).json({ message: 'User Already Exists' });
             }else{
                 pool.query("INSERT INTO users (name, email_username, phone, password) VALUES ($1, $2, $3, $4)", 
                 [name, email, phone, password], (error, results) => {
@@ -227,7 +227,6 @@ app.get('/users/myrecipes/:id', verifyToken, async (req, res) => {
 app.post('/recipes/bookmark', verifyToken, async (req,res) => {
     const userId = req.body.user_id;
     const recipeId = req.body.recipe_id;
-    console.log(req.body);
     try{
         pool.query("INSERT INTO bookmark (user_id, recipe_id) VALUES ($1, $2)", [userId, recipeId],
         (error, results) => {
@@ -256,10 +255,18 @@ app.delete('/recipes/unmark', verifyToken, async (req, res) => {
 app.delete('/myrecipes/delete', verifyToken, async (req, res) => {
     const recipeId = req.query.recipe_id;
     try{
-        pool.query("DELETE FROM recipe WHERE id = $1", [recipeId],
-        (error, results) => {
-            if(error) throw error;
-            res.status(200).json({ message: 'Deleted Successfully' });
+        pool.query("SELECT * FROM comments AS c JOIN recipe AS r ON c.recipe_id = r.id WHERE c.recipe_id = $1", 
+        [recipeId], (error, results) => {
+            if(results.rows.length != 0){
+                pool.query("DELETE FROM comments WHERE recipe_id = $1", [recipeId], (error, results) => {
+                    if(error) throw error;
+                })
+            }
+            pool.query("DELETE FROM recipe WHERE id = $1", [recipeId],
+            (error, results) => {
+                if(error) throw error;
+                res.status(200).json({ message: 'Recipe Deleted Successfully' });
+            })
         })
     } catch (error){
         res.json({message : 'An error Occured', error});
@@ -285,5 +292,7 @@ app.get('/users/bookmark/:id', verifyToken, async (req, res) => {
         res.json({message : 'An error Occured', error});
     }
 });
+
+
 
 app.listen(port, () => console.log(`App listening on port ${port}`));

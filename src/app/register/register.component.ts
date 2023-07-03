@@ -74,7 +74,7 @@ export class RegisterComponent implements OnInit{
       return;
     }
 
-    if(window.confirm("Are you sure you want to submit the form?")){
+    if(window.confirm("Are you sure you want to register?")){
       this.appService.register(this.registerForm.getRawValue()).subscribe({
         next: (res:any) => {
             console.log(res);

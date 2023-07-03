@@ -1,0 +1,64 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a routerLink="/home" class="navbar-brand">MagicOven</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a routerLink="/addrecipe">Add Recipe</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a routerLink="/bookmark"><i class="bi bi-bookmark-fill"></i></a></li>
+                <li><a routerLink="/myrecipe">My Recipes</a></li>
+                <li><a>Hello {{ name }}</a></li>
+                <li><a routerLink="/login">LogOut</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+                <h2>Share Recipe</h2><br/>
+                <form [formGroup]="recipeEditForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <input type="text" 
+                        class="form-control"
+                        id="recipename"
+                        name="recipename"
+                        placeholder="Recipie Name"
+                        formControlName="recipeName"
+                        required>
+                        <span class="help-block"
+                        *ngIf="!recipeEditForm.get('recipeName')?.valid && recipeEditForm.get('recipeName')?.touched">
+                        * Recipe Name Required</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" 
+                        class="form-control"
+                        id="ingredients"
+                        name="ingredients"
+                        placeholder="Ingredients"
+                        formControlName="ingredients"
+                        required>
+                        <span class="help-block"
+                        *ngIf="!recipeEditForm.get('ingredients')?.valid && recipeEditForm.get('ingredients')?.touched">
+                        * Required Field</span>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="description" 
+                        id="description" cols="30" rows="8" 
+                        class="form-control"
+                        placeholder="Description"
+                        formControlName="description"
+                        required></textarea>
+                        <span class="help-block"
+                        *ngIf="!recipeEditForm.get('description')?.valid && recipeEditForm.get('description')?.touched">
+                        * Required Field</span>
+                    </div>
+                    <button class="btn btn-primary"
+                    type="submit">Share Recipe</button>
+            </form>
+        </div>
+    </div>
+</div>

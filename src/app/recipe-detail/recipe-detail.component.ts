@@ -61,6 +61,7 @@ export class RecipeDetailComponent implements OnInit{
         console.log(res);
         console.log(this.commentForm);
         window.alert("Comment Added");
+        this.commentForm.reset();
         this.loadComments();
       },
       error : (err: any) => {
