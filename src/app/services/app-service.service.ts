@@ -19,8 +19,8 @@ export class AppServiceService {
     return this.http.post(this.BaseUrl + '/users/login', formData);
   }
 
-  createRecipe(user: any, id: any): Observable<any> {
-    return this.http.post(this.BaseUrl + '/users/addrecipe', { user, id });
+  createRecipe(recipe: any, id: any): Observable<any> {
+    return this.http.post(this.BaseUrl + '/users/addrecipe', { recipe, id });
   }
 
   getAllRecipes(id: any): Observable<any> {
@@ -72,6 +72,10 @@ export class AppServiceService {
 
   getMyRecipe(id: any): Observable<any>{
     return this.http.get(`${this.BaseUrl}/users/myrecipes/${id}`);
+  }
+
+  updateRecipe(recipe: any, id: any): Observable<any> {
+    return this.http.post(this.BaseUrl + '/users/editrecipe', { recipe, id });
   }
 
   logout() {

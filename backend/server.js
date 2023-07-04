@@ -293,6 +293,19 @@ app.get('/users/bookmark/:id', verifyToken, async (req, res) => {
     }
 });
 
-
+app.post('/users/editrecipe', verifyToken, async (req, res) => {
+    const {  recipeName, ingredients, description } = req.body.recipe;
+    const { id } = req.body;
+    try {
+            pool.query("UPDATE recipe SET recipe_name = $1, ingredients = $2, description = $3 WHERE id = $4",
+            [recipeName, ingredients, description, id ], (error, results) => {
+                if(error) throw error;
+                res.status(200).json({ message: 'Recipe Updated Successfully' });
+            })
+      
+    } catch (error) {
+        res.json({message : 'An error Occured', error});
+    }
+});
 
 app.listen(port, () => console.log(`App listening on port ${port}`));

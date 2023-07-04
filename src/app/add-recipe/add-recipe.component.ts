@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 })
 export class AddRecipeComponent implements OnInit {
   recipeForm !: FormGroup;
-  formData = new FormData();
-  file !: File;
+  // formData = new FormData();
+  // file !: File;
   name =  localStorage.getItem('currentUser');
 
   constructor(private appService : AppServiceService, private route : Router, private fb : FormBuilder) {}
@@ -24,14 +24,14 @@ export class AddRecipeComponent implements OnInit {
     })
   }
 
-  onFileSelected(event: any) {
-    this.file = event.target.files[0];
-    this.uploadFile(this.file);
-  }
+  // onFileSelected(event: any) {
+  //   this.file = event.target.files[0];
+  //   this.uploadFile(this.file);
+  // }
   
-  uploadFile(file: File){
-     this.formData.append('file', file);
-  }
+  // uploadFile(file: File){
+  //    this.formData.append('file', file);
+  // }
    
   onSubmit() {
     this.recipeForm.markAllAsTouched();
@@ -40,7 +40,7 @@ export class AddRecipeComponent implements OnInit {
       window.alert("Please fill out all required fields");
       return;
     }
-    if(window.confirm("Are you sure you want to submit your recipe?")) {
+    if(window.confirm("Are you sure you want to submit your updated recipe?")) {
       console.log(localStorage.getItem('user_id'));
       const id = localStorage.getItem('user_id');
       this.appService.createRecipe(this.recipeForm.getRawValue(), id).subscribe({
@@ -48,7 +48,6 @@ export class AddRecipeComponent implements OnInit {
             console.log(res);
             console.log(this.recipeForm);
             this.route.navigate(['/home']);
-            console.log(this.file);
             window.alert("Your Recipe Added");
         },
         error: (err: any) => {

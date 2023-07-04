@@ -34,10 +34,10 @@ export class RecipeDetailComponent implements OnInit{
       (response)=>{
         console.log(response);
         this.comments = response.result;
-    },
-    (error) => {
-      console.error('Error fetching recipes:', error);
-    }
+      },
+      (error) => {
+        console.error('Error fetching recipes:', error);
+      }
     );
   }
 

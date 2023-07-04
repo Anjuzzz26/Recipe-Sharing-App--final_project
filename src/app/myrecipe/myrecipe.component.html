@@ -5,6 +5,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+                <li><a routerLink="/home">Home</a></li>
                 <li><a routerLink="/addrecipe">Add Recipe</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -24,11 +25,13 @@
         <div class="col-sm-3" 
             *ngFor = "let recipe of recipes">
                 <h1>{{ recipe.recipe_name }}</h1>
-                <p>{{ recipe.ingredients }}</p>
-                <p>{{ recipe.description }}</p>
+                <p>{{ recipe.ingredients | slice:0:80 }}...</p>
+                <p>{{ recipe.description | slice:0:200 }}...</p>
                 <br/>
                 <small>{{ recipe.created_at | date }}</small>
+                <a class="readmore" [routerLink]="['/recipedetail', recipe.id]"><u>Read More</u></a><br/><br/>
                 <a class="delete" (click)="delete(recipe.id)"><button><u>Delete</u></button></a>
+                <a style="padding-left: 20px;" [routerLink]="['/recipeedit', recipe.id]"><i class="bi bi-pen"></i></a>
         </div>
         <div class="col-sm-3" *ngIf=" res!='' ">{{ res }}</div>
 </div>

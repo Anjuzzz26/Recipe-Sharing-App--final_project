@@ -25,11 +25,11 @@
     background-color: rgba(0,0,0,.8);
     color: #fff;
     margin-top: 30px;
-    height: 250px;
+    height: 280px;
     padding-bottom: 20px;
     padding-right: 30px;
     padding-left: 30px;
-    padding-top: 20px;
+    padding-top: 30px;
     margin-left: 20px;
     width: 45%;
 }
@@ -48,7 +48,7 @@ p{
 }
 .delete{
     color: #809ee7;
-    margin-left: 350px;
+    margin-left: 420px;
 }
 small{
     font-size: 75%;
@@ -59,4 +59,8 @@ h1{
 .bi-bookmarks::before, .bi-bookmark-fill::before {
     font-size: 20px;
     margin-left: 490px;
+}
+.readmore{
+    color: #809ee7;
+    margin-left: 300px;
 }

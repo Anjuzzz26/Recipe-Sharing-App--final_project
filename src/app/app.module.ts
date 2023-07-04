@@ -29,6 +29,7 @@ const appRoutes : Routes = [
     { path : 'myrecipe', component : MyrecipeComponent, canActivate : [AuthguardService]},
     { path : 'bookmark', component : BookmarkComponent, canActivate : [AuthguardService]},
     { path : 'recipedetail/:id', component : RecipeDetailComponent, canActivate : [AuthguardService]},
+    { path : 'recipeedit/:id', component : EditRecipeComponent, canActivate : [AuthguardService]}
 ];
 
 
