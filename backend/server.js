@@ -1,12 +1,11 @@
 const express = require('express');
-const fileUpload = require('express-fileupload');
 const Pool =  require('pg').Pool;
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { Router } = require("express");
+// const { Router } = require("express");
 const { async } = require('rxjs');
-const router = Router();
+// const router = Router();
 
 const pool = new Pool({
     user : "anju_jacob",
@@ -21,7 +20,7 @@ const port = 3000;
 
 app.use(express.json());
 app.use(cors());
-app.use(fileUpload());
+
 
 app.post('/users/register', async (req, res) => {
     const { name, email, phone, password } = req.body;
@@ -94,7 +93,7 @@ app.post('/users/login', async (req, res) => {
 });
 
 app.post('/users/addrecipe', verifyToken, async (req, res) => {
-    const {  recipeName, ingredients, description } = req.body.user;
+    const {  recipeName, ingredients, description } = req.body.recipe;
     const { id } = req.body;
     try {
             pool.query("INSERT INTO recipe(recipe_name, ingredients, description, author_id) VALUES ($1, $2, $3, $4)",
@@ -302,7 +301,6 @@ app.post('/users/editrecipe', verifyToken, async (req, res) => {
                 if(error) throw error;
                 res.status(200).json({ message: 'Recipe Updated Successfully' });
             })
-      
     } catch (error) {
         res.json({message : 'An error Occured', error});
     }

@@ -6,7 +6,6 @@ import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AddRecipeComponent } from './add-recipe/add-recipe.component';
-import { RatingComponent } from './rating/rating.component';
 import { HomeComponent } from './home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,6 +18,7 @@ import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
 import { BookmarkComponent } from './bookmark/bookmark.component';
 import { MyrecipeComponent } from './myrecipe/myrecipe.component';
 import { EditRecipeComponent } from './edit-recipe/edit-recipe.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes : Routes = [
     { path : '', component : LoginComponent },
@@ -40,12 +40,11 @@ const appRoutes : Routes = [
     LoginComponent,
     RegisterComponent,
     AddRecipeComponent,
-    RatingComponent,
     HomeComponent,
     RecipeDetailComponent,
     BookmarkComponent,
     MyrecipeComponent,
-    EditRecipeComponent
+    EditRecipeComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +53,7 @@ const appRoutes : Routes = [
     BrowserAnimationsModule,
     MatSnackBarModule,
     RouterModule.forRoot(appRoutes),
+    NgbModule,
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor,

@@ -26,13 +26,12 @@
             <b>INGREDIENTS :</b><br/><br/>
             <p>{{ recipe.ingredients }}</p><br/><br/>
             <b>DESCRIPTION</b><br/><br/>
-            <p>{{ recipe.description }}</p><br/><br/>  
-            <br/>
+            <p>{{ recipe.description }}</p><br/>
             <h3><b>COMMENTS</b></h3>
             <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <textarea name="comments" 
-                    id="description" cols="30" rows="8" 
+                    id="description" cols="30" rows="6" 
                     class="form-control"
                     formControlName="comments"
                     required></textarea>

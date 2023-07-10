@@ -10,8 +10,6 @@ import { Router } from '@angular/router';
 })
 export class AddRecipeComponent implements OnInit {
   recipeForm !: FormGroup;
-  // formData = new FormData();
-  // file !: File;
   name =  localStorage.getItem('currentUser');
 
   constructor(private appService : AppServiceService, private route : Router, private fb : FormBuilder) {}
@@ -23,15 +21,6 @@ export class AddRecipeComponent implements OnInit {
       "description" : [, [Validators.required]]
     })
   }
-
-  // onFileSelected(event: any) {
-  //   this.file = event.target.files[0];
-  //   this.uploadFile(this.file);
-  // }
-  
-  // uploadFile(file: File){
-  //    this.formData.append('file', file);
-  // }
    
   onSubmit() {
     this.recipeForm.markAllAsTouched();
@@ -40,7 +29,7 @@ export class AddRecipeComponent implements OnInit {
       window.alert("Please fill out all required fields");
       return;
     }
-    if(window.confirm("Are you sure you want to submit your updated recipe?")) {
+    if(window.confirm("Are you sure you want to submit your recipe?")) {
       console.log(localStorage.getItem('user_id'));
       const id = localStorage.getItem('user_id');
       this.appService.createRecipe(this.recipeForm.getRawValue(), id).subscribe({
